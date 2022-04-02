@@ -70,5 +70,7 @@ CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS 
 ![alt text](images/webhook_config.png)
 ![alt text](images/events.png)
 
+7. Create a test repository and check the response of the webhook
+![alt text](images/webhook_response.png)
 
  

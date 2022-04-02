@@ -11,7 +11,7 @@ github_token = os.getenv("GITHUB_TOKEN")
 github_client = Github(github_token)
 webhook_secret = os.getenv("WEBHOOK_SECRET")
 
-@app.route('/webhook', methods=['POST'])   
+@app.route('/', methods=['POST'])
 def hook_root():
   return cofigure_repo(request, github_client, webhook_secret, app.logger)
 
