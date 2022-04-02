@@ -15,16 +15,12 @@ Webhook to set up protection rules of repositories Github Organizations.
  6. [Ngrok installation](https://ngrok.com/download)
  7. [GitHub Account Creation](https://github.com/join)
  8. [Create an Access Token](https://github.com/settings/tokens/new)
-	 Permisson for the token are
-	   - [x] repo: Full control of private repositories
+	  Permisson for the token are
+	  - [x] repo: Full control of private repositories
 	  - [x] admin:org Full control of orgs and teams, read and write org projects
 ## :computer: How to run the app
- 1. Export GITHUB_TOKEN as environment variable
-```bash
-# Linux
-export GITHUB_TOKEN=ghp_XXXXXXXXX
-```
-2. Run Ngrok to get a public URLs linked to your computer in a different terminal
+
+1. Run Ngrok to get a public URLs linked to your computer
 ```bash
 ngrok http 5000
 # Output should look like this
@@ -41,37 +37,38 @@ Forwarding                    https://9b7b-188-141-110-54.ngrok.io -> http://loc
 Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
-3.  Configre the webhook in the Github Organization 
-	
- - [x] URL from ngrok command
- - [x] Content type: application/json
- - [x] Secret: XXXXXXX
- - [x] Enable SSL verification
- - [x] Let me select individual events:  Repositories 
-
-![alt text](images/webhook_config.png)
-![alt text](images/events.png)
-4. Export the secrets as environment variable in the same terminal as Step 1
+2. Export the secrets and github token as environment variable in a different terminal
 ```bash
+# Linux
+export GITHUB_TOKEN=ghp_XXXXXXXXX
 export WEBHOOK_SECRET=XXXXXXX
 ```
-5. Build the application with docker
+3. Build the application with docker
 ```bash
 docker build --target production -t awsomewebhook:lastet .
 # Or use the Makefile recipe
 make build
 ```
-6. Run the app
+4. Run the app
 ```bash 
 docker run -d --rm --name awsomewebhook -p 5000:5000 awsomewebhook:lastet
 # Or use the Makefile recipe
 make run
 ```
-7. Check app running on port 5000
+5. Check app running on port 5000
 ```bash
 docker ps
 CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS          PORTS                                       NAMES
-52a81b99ad3b   awsomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awsomewebhook```
+52a81b99ad3b   awsomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awsomewebhook
+```
+6.  Configre the webhook in the Github Organization
+ - [x] URL from ngrok command
+ - [x] Content type: application/json
+ - [x] Secret: XXXXXXX
+ - [x] Enable SSL verification
+ - [x] Let me select individual events:  Repositories
+![alt text](images/webhook_config.png)
+![alt text](images/events.png)
 
 
  
