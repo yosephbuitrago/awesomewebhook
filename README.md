@@ -64,7 +64,7 @@ CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS 
 6.  Configre the webhook in the Github Organization
  - [x] URL from ngrok command
  - [x] Content type: application/json
- - [x] Secret: XXXXXXX
+ - [x] Secret: XXXXXXX (*from step 2*)
  - [x] Enable SSL verification
  - [x] Let me select individual events:  Repositories
 ![alt text](images/webhook_config.png)
