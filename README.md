@@ -11,13 +11,14 @@ Webhook to set up protection rules of repositories Github Organizations.
  4. GitHub Organization account 
  
  ## :books: Resources
- 5. [Docker installation](https://www.docker.com/products/docker-desktop)
- 6. [Ngrok installation](https://ngrok.com/download)
- 7. [GitHub Account Creation](https://github.com/join)
- 8. [Create an Access Token](https://github.com/settings/tokens/new)
+ 1. [Docker installation](https://www.docker.com/products/docker-desktop)
+ 2. [Ngrok installation](https://ngrok.com/download)
+ 3. [GitHub Account Creation](https://github.com/join)
+ 4. [Create an Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 	  Permisson for the token are
 	  - [x] repo: Full control of private repositories
 	  - [x] admin:org Full control of orgs and teams, read and write org projects
+ 5. [Creating a new organization](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch)
 ## :computer: How to run the app
 
 1. Run Ngrok to get a public URLs linked to your computer
