@@ -9,7 +9,7 @@ from hashlib import sha256
 def handler(request, github_client, webhook_secret, logger):
     '''
         Process the webhook request, validate request method, content-type and
-        signature and return appropiated response base on event action
+        signature and return appropiated response based on event action
         args
         request: http request
         github_client: the github client
@@ -54,7 +54,7 @@ def validate_signature(received_sign, request_payload, webhook_secret):
 
 def setup_repo_config(event, github_client):
     '''
-        Perform appropiated branch configuration base on event action
+        Perform appropiate branch configuration based on event action
         args
         event: github event 
         github_client: Github Client to perform APIs call
@@ -75,12 +75,12 @@ def setup_repo_config(event, github_client):
         org_plan = github_client.get_organization(
             login=event['organization']['login']).plan.name
 
-        # If org is free and the repo is private. we can't set branch protection
+        # If org is free and the repo is private. We can't set branch protection
         # You need to upgrade to GitHub teams for this feature on private repos
         if event["repository"][
                 "visibility"] == "private" and org_plan == 'free':
 
-            # Create a issue with the configuration of the repo
+            # Create an issue with the configuration of the repo
             issue_body = '''
             Confirmation of repository created and configured, 
             Unable to set branch protections for a private repo need upgrade to GitHub Pro @''' + github_client.get_user(
@@ -88,13 +88,13 @@ def setup_repo_config(event, github_client):
             repo.create_issue(title="New repo created", body=issue_body)
             return {'message': "Repo configured"}, 201
 
-        # If the repo is public edit the protection on the default branch
+        # If the repo is public, edit the protection on the default branch
         repo.get_branch('main').edit_protection(
             enforce_admins=True,
             required_approving_review_count=3,
             require_code_owner_reviews=True)
 
-        # Create a issue with the configuration of the repo
+        # Create an issue with the configuration of the repo
         issue_body = '''
         Confirmation for respository created and configured, settings:
         Require a pull request before merging,
