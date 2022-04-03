@@ -8,8 +8,8 @@ from hashlib import sha256
 
 def handler(request, github_client, webhook_secret, logger):
     '''
-        Process the webhook request, validate request method, content-type
-        validate the signature return appropiated response base on action
+        Process the webhook request, validate request method, content-type and
+        signature and return appropiated response base on event action
         args
         request: http request
         github_client: the github client
@@ -54,7 +54,7 @@ def validate_signature(received_sign, request_payload, webhook_secret):
 
 def setup_repo_config(event, github_client):
     '''
-        Perform appropiated branch configuration base action
+        Perform appropiated branch configuration base on event action
         args
         event: github event 
         github_client: Github Client to perform APIs call
@@ -69,32 +69,32 @@ def setup_repo_config(event, github_client):
         if repo.get_branches().totalCount == 0:
             repo.create_file(
                 "README.md", "first commit",
-                ":rocket: Time to build a new project. have fun :wink:")
+                ":rocket: Time to build a new project. have fun :wink:!")
 
         # Get the current organization plan.
         org_plan = github_client.get_organization(
             login=event['organization']['login']).plan.name
 
-        # If org is free and the repo is private. we can't set branch proction
+        # If org is free and the repo is private. we can't set branch protection
         # You need to upgrade to GitHub teams for this feature on private repos
         if event["repository"][
                 "visibility"] == "private" and org_plan == 'free':
 
-            # Creates a issue with the configuration of the repo
+            # Create a issue with the configuration of the repo
             issue_body = '''
             Confirmation of repository created and configured, 
             Unable to set branch protections for a private repo need upgrade to GitHub Pro @''' + github_client.get_user(
             ).login
             repo.create_issue(title="New repo created", body=issue_body)
-            return {'message': "Repo configured"}, 200
+            return {'message': "Repo configured"}, 201
 
-        # If the repo is public edit the proction on the default branch
+        # If the repo is public edit the protection on the default branch
         repo.get_branch('main').edit_protection(
             enforce_admins=True,
             required_approving_review_count=3,
             require_code_owner_reviews=True)
 
-        # Creates a issue with the configuration of the repo
+        # Create a issue with the configuration of the repo
         issue_body = '''
         Confirmation for respository created and configured, settings:
         Require a pull request before merging,
@@ -104,9 +104,9 @@ def setup_repo_config(event, github_client):
         @''' + github_client.get_user().login
 
         repo.create_issue(title="New repo configured", body=issue_body)
-        return {'message': "Repo configured"}, 200
+        return {'message': "Repo configured"}, 201
 
     elif event['action'] == "deleted":
-        return {'message': 'Not action taken'}, 200
+        return {'message': 'Not action taken'}, 202
     else:
-        return {'message': 'Action not implemented'}, 200
+        return {'message': 'Action not implemented'}, 202
