@@ -14,7 +14,7 @@ Webhook to set up protection rules of repositories Github Organizations.
  1. [Docker installation](https://www.docker.com/products/docker-desktop)
  2. [Ngrok installation](https://ngrok.com/download)
  3. [GitHub Account Creation](https://github.com/join)
- 4. [Create an Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+ 4. [Create an Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) \
  	Scope granted the token are:
 	  - [x] repo: Full control of private repositories
 	  - [x] admin:org Full control of orgs and teams, read and write org projects
@@ -68,11 +68,11 @@ CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS 
  - [x] Secret: XXXXXXX (*from step 2*)
  - [x] Enable SSL verification
  - [x] Let me select individual events:
-	-[x] Repositories
+	- [x] Repositories
 ![alt text](images/webhook_config.png)
 ![alt text](images/events.png)
 
-7. Create a test repository and check the response of the webhook
+7. Create a test repository and check the webhook response
 ![alt text](images/webhook_response.png)
 
  
