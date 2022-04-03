@@ -15,7 +15,7 @@ Webhook to set up protection rules of repositories Github Organizations.
  2. [Ngrok installation](https://ngrok.com/download)
  3. [GitHub Account Creation](https://github.com/join)
  4. [Create an Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-	  Permisson for the token are
+ 	Scope granted the token are:
 	  - [x] repo: Full control of private repositories
 	  - [x] admin:org Full control of orgs and teams, read and write org projects
  5. [Creating a new organization](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch)
@@ -38,7 +38,7 @@ Forwarding                    https://9b7b-188-141-110-54.ngrok.io -> http://loc
 Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
-2. Export the secrets and github token as environment variable in a different terminal
+2. Export the secrets as environment variable in a different terminal
 ```bash
 # Linux
 export GITHUB_TOKEN=ghp_XXXXXXXXX
@@ -56,18 +56,19 @@ docker run -d --rm --name awesomewebhook -p 5000:5000 awesomewebhook:lastet
 # Or use the Makefile recipe
 make run
 ```
-5. Check app running on port 5000
+5. Check if the app is running on port 5000
 ```bash
 docker ps
 CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS          PORTS                                       NAMES
 52a81b99ad3b   awesomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awesomewebhook
 ```
-6.  Configre the webhook in the Github Organization
- - [x] URL from ngrok command
+6.  Configure the webhook in the Github Organization
+ - [x] URL from ngrok command (*from step 1*)
  - [x] Content type: application/json
  - [x] Secret: XXXXXXX (*from step 2*)
  - [x] Enable SSL verification
- - [x] Let me select individual events:  Repositories
+ - [x] Let me select individual events:
+	-[x] Repositories
 ![alt text](images/webhook_config.png)
 ![alt text](images/events.png)
 

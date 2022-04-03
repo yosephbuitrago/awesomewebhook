@@ -1,3 +1,7 @@
+'''
+    Handler the request from GitHub
+'''
+
 from hmac import HMAC, compare_digest
 from hashlib import sha256
 
@@ -16,15 +20,18 @@ def handler(request, github_client, webhook_secret, logger):
         return {'message', 'Method not allow'}, 405
 
     if request.headers['Content-Type'] != 'application/json':
-        return {'message', 'Invalid content type. Allowed type is application/json'}, 415
+        return {
+            'message', 'Invalid content type. Allowed type is application/json'
+        }, 415
 
     if "X-Hub-Signature-256" in request.headers and not webhook_secret:
         logger.error("Environment variable WEBHOOK_SECRET missing")
         return {'message': 'Server error'}, 500
 
-    received_sign = request.headers.get('X-Hub-Signature-256').split('sha256=')[-1].strip()
+    received_sign = request.headers.get('X-Hub-Signature-256').split(
+        'sha256=')[-1].strip()
     request_payload = request.data
-    
+
     if not validate_signature(received_sign, request_payload, webhook_secret):
         return {'message': 'Invalid authentication'}, 401
 
@@ -40,8 +47,10 @@ def validate_signature(received_sign, request_payload, webhook_secret):
         webhook_secret: secret to perform the HMAC operation
     '''
     secret = webhook_secret.encode()
-    expected_sign = HMAC(key=secret, msg=request_payload, digestmod=sha256).hexdigest()
+    expected_sign = HMAC(key=secret, msg=request_payload,
+                         digestmod=sha256).hexdigest()
     return compare_digest(received_sign, expected_sign)
+
 
 def setup_repo_config(event, github_client):
     '''
@@ -58,38 +67,41 @@ def setup_repo_config(event, github_client):
         # Check if the repo was created with README.md or .gitignore options
         # If not creates the default README.md file
         if repo.get_branches().totalCount == 0:
-            repo.create_file("README.md", "first commit", ":rocket: Time to build a new project. have fun :wink:")
-        
+            repo.create_file(
+                "README.md", "first commit",
+                ":rocket: Time to build a new project. have fun :wink:")
+
         # Get the current organization plan.
-        org_plan = github_client.get_organization(login=event['organization']['login']).plan.name
-        
+        org_plan = github_client.get_organization(
+            login=event['organization']['login']).plan.name
+
         # If org is free and the repo is private. we can't set branch proction
         # You need to upgrade to GitHub teams for this feature on private repos
-        if event["repository"]["visibility"] == "private" and org_plan == 'free':
+        if event["repository"][
+                "visibility"] == "private" and org_plan == 'free':
 
             # Creates a issue with the configuration of the repo
-            issue_body='''
+            issue_body = '''
             Confirmation of repository created and configured, 
-            Unable to set branch protections for a private repo need upgrade to GitHub Pro @'''+github_client.get_user().login
+            Unable to set branch protections for a private repo need upgrade to GitHub Pro @''' + github_client.get_user(
+            ).login
             repo.create_issue(title="New repo created", body=issue_body)
             return {'message': "Repo configured"}, 200
-        
+
         # If the repo is public edit the proction on the default branch
         repo.get_branch('main').edit_protection(
             enforce_admins=True,
             required_approving_review_count=3,
-            require_code_owner_reviews=True
-        )
+            require_code_owner_reviews=True)
 
         # Creates a issue with the configuration of the repo
-        issue_body='''
+        issue_body = '''
         Confirmation for respository created and configured, settings:
         Require a pull request before merging,
         Require approvals 3,
         Require review from Code Owners,
         Include administrators
-        @'''+github_client.get_user().login
-
+        @''' + github_client.get_user().login
 
         repo.create_issue(title="New repo configured", body=issue_body)
         return {'message': "Repo configured"}, 200
@@ -98,6 +110,3 @@ def setup_repo_config(event, github_client):
         return {'message': 'Not action taken'}, 200
     else:
         return {'message': 'Action not implemented'}, 200
-
-
-
