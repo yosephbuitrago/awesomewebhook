@@ -1,5 +1,5 @@
 
-# AwsomeWebhook
+# AwesomeWebhook
 
 Webhook to set up protection rules of repositories Github Organizations.
 
@@ -45,13 +45,13 @@ export WEBHOOK_SECRET=XXXXXXX
 ```
 3. Build the application with docker
 ```bash
-docker build --target production -t awsomewebhook:lastet .
+docker build --target production -t awesomewebhook:lastet .
 # Or use the Makefile recipe
 make build
 ```
 4. Run the app
 ```bash 
-docker run -d --rm --name awsomewebhook -p 5000:5000 awsomewebhook:lastet
+docker run -d --rm --name awesomewebhook -p 5000:5000 awesomewebhook:lastet
 # Or use the Makefile recipe
 make run
 ```
@@ -59,7 +59,7 @@ make run
 ```bash
 docker ps
 CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS          PORTS                                       NAMES
-52a81b99ad3b   awsomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awsomewebhook
+52a81b99ad3b   awesomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awesomewebhook
 ```
 6.  Configre the webhook in the Github Organization
  - [x] URL from ngrok command

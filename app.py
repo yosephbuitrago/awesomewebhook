@@ -3,17 +3,18 @@ from github import Github
 from flask import Flask
 from flask import request
 from flask import json 
-from repoconfig import cofigure_repo
+from handlers import handler
 
-
+# Create the flask app and get environmemt variables need it
 app = Flask(__name__)
 github_token = os.getenv("GITHUB_TOKEN")
 github_client = Github(github_token)
 webhook_secret = os.getenv("WEBHOOK_SECRET")
 
+# Creates the endpoint that listen for POST request
 @app.route('/', methods=['POST'])
 def hook_root():
-  return cofigure_repo(request, github_client, webhook_secret, app.logger)
+  return handler(request, github_client, webhook_secret, app.logger)
 
 
 if __name__ == '__main__':

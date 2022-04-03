@@ -1,16 +1,16 @@
 build:
-	docker build --target production -t awsomewebhook:lastet .
-	docker build --target test -t awsomewebhook:test .
+	docker build --target production -t awesomewebhook:lastet .
+	docker build --target test -t awesomewebhook:test .
 
 
 run: build
-	docker rm -f awsomewebhook
-	docker run -d --rm --name awsomewebhook -p 5000:5000 --env WEBHOOK_SECRET=${WEBHOOK_SECRET} \
-	--env GITHUB_TOKEN=${GITHUB_TOKEN} awsomewebhook:lastet
+	docker rm -f awesomewebhook
+	docker run -d --rm --name awesomewebhook -p 5000:5000 --env WEBHOOK_SECRET=${WEBHOOK_SECRET} \
+	--env GITHUB_TOKEN=${GITHUB_TOKEN} awesomewebhook:lastet
 
 test: 
-	docker run --rm --name awsomewebhook-test awsomewebhook:test
+	docker run --rm --name awesomewebhook-test awesomewebhook:test
 	
 clean:	 
-	docker rm -f awsomewebhook
+	docker rm -f awesomewebhook
 

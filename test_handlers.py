@@ -3,9 +3,7 @@ import hmac
 import hashlib
 from unittest.mock import Mock
 from unittest.mock import patch
-
-from repoconfig import cofigure_repo, validate_signature, setup_repo_config
-
+import handlers
 
 
 class ValidateRequest(unittest.TestCase):
@@ -13,14 +11,14 @@ class ValidateRequest(unittest.TestCase):
     def test_method_not_allow(self):
         request = Mock()
         request.method = "GET"
-        result = cofigure_repo(request, Mock(), Mock(), Mock())
+        result = handler(request, Mock(), Mock(), Mock())
         assert result == ({'Method not allow', 'message'}, 405)
 
     def test_invalid_content_type(self):
         request = Mock()
         request.method = "POST"
         request.headers={'Content-Type': 'application/x-www-from-urlencoded'}
-        result = cofigure_repo(request, Mock(), Mock(), Mock())
+        result = handler(request, Mock(), Mock(), Mock())
         assert result == ({'message', 'Invalid content type. Allowed type is application/json'}, 415)
 
     def test_missing_secret(self):
@@ -30,7 +28,7 @@ class ValidateRequest(unittest.TestCase):
             'Content-Type': 'application/json',
             'X-Hub-Signature-256': 'sha=sha256=1c405447c626670bdf3a9e3c0e204864e9bfc2f67866a154e9d72c2789062748'
         }
-        result = cofigure_repo(request, Mock(), False, Mock())
+        result = handler(request, Mock(), False, Mock())
         assert result == ({'message': 'Check server logs'}, 500)
 
 class ValidateSignature(unittest.TestCase):
