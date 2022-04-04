@@ -8,8 +8,8 @@ Webhook to set up protection rules of repositories Github Organizations.
  1. Docker
  2. Ngrok
  3. Personal Github Access Token
- 4. GitHub Organization account 
- 
+ 4. GitHub Organization account
+
  ## :books: Resources
  1. [Docker installation](https://www.docker.com/products/docker-desktop)
  2. [Ngrok installation](https://ngrok.com/download)
@@ -51,7 +51,7 @@ docker build --target production -t awesomewebhook:lastet .
 make build
 ```
 4. Run the app
-```bash 
+```bash
 docker run -d --rm --name awesomewebhook -p 5000:5000 awesomewebhook:lastet
 # Or use the Makefile recipe
 make run
@@ -74,5 +74,14 @@ CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS 
 
 7. Create a test repository and check the webhook response
 ![alt text](images/webhook_response.png)
+8. If the response is 2XX, this means that is working :sunglasses:
+9. Check the repository branch protection in Settings
+![alt text](images/branch_protection.png)
+10. Check the issue notification, contain the settings applied
+![alt text](images/issue_confirmation.png)
 
- 
+> If there not response from response check the logs of the app. `docker logs awesomewebhook`
+
+### Presentation
+
+The presentation slides are in the docs folder
