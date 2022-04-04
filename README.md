@@ -52,7 +52,8 @@ make build
 ```
 4. Run the app
 ```bash
-docker run -d --rm --name awesomewebhook -p 5000:5000 awesomewebhook:lastet
+docker run -d --rm --name awesomewebhook -p 5000:5000 --env WEBHOOK_SECRET=$WEBHOOK_SECRET \
+	--env GITHUB_TOKEN=$GITHUB_TOKEN awesomewebhook:lastet
 # Or use the Makefile recipe
 make run
 ```
