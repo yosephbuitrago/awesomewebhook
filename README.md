@@ -75,13 +75,13 @@ CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS 
 7. Create a test repository and check the webhook response
 ![alt text](images/webhook_response.png)
 8. If the response is 2XX, this means that is working :sunglasses:
-9. Check the repository branch protection in Settings
+9. Check the repository branch protection in *Settings*
 ![alt text](images/branch_protection.png)
-10. Check the issue notification, contain the settings applied
+10. Check the issue notification contains the settings applied
 ![alt text](images/issue_confirmation.png)
 
-> If there not response from response check the logs of the app. `docker logs awesomewebhook`
+> If there is no response from the app check the logs with `docker logs awesomewebhook`
 
 ### Presentation
 
-The presentation slides are in the docs folder
+The presentation slides are located in the *docs* folder
