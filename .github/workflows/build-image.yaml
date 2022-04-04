@@ -19,4 +19,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: dockerhub push
-      run: "docker -tag awesomewebhook:lastet ${{secrets.DOCKER_USERNAME}}/awesomewebhook:lastet -tag awesomewebhook:lastet ${{secrets.DOCKER_USERNAME}}/awesomewebhook:${{github.sha}} && docker push ${{secrets.DOCKER_USERNAME}}/awesomewebhook: --all-tags"
+      run: |
+        docker -tag awesomewebhook:lastet ${{secrets.DOCKER_USERNAME}}/awesomewebhook:lastet -tag awesomewebhook:lastet ${{secrets.DOCKER_USERNAME}}/awesomewebhook:${{github.sha}}
+        docker push ${{secrets.DOCKER_USERNAME}}/awesomewebhook --all-tags
