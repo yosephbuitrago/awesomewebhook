@@ -59,6 +59,10 @@ def setup_repo_config(event, github_client):
         event: github event 
         github_client: Github Client to perform APIs call
     '''
+    # handle the initial webhook config
+    if 'zen' in event and 'hook_id' in event:
+        return {'message': 'webhook ready for work!'}
+
     if event['action'] == "created":
 
         # Get repo object that trigger the event
@@ -66,10 +70,30 @@ def setup_repo_config(event, github_client):
 
         # Check if the repo was created with README.md or .gitignore options
         # If not creates the default README.md file
+        path = "README.md"
+        content = ":rocket: Time to build a new project. have fun :wink:!"
         if repo.get_branches().totalCount == 0:
             repo.create_file(
-                "README.md", "first commit",
-                ":rocket: Time to build a new project. have fun :wink:!")
+                path,
+                "first commit",
+                content
+            )
+        else:
+            try:
+                if repo.get_readme():
+                    repo.update_file(
+                        path,
+                        "second commit",
+                        content,
+                        repo.get_readme().sha
+                    )
+            except Exception as e:
+                repo.create_file(
+                    path,
+                    "second commit",
+                    content
+                )
+                pass
 
         # Get the current organization plan.
         org_plan = github_client.get_organization(
