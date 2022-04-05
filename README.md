@@ -46,14 +46,14 @@ export WEBHOOK_SECRET=XXXXXXX
 ```
 3. Build the application with docker
 ```bash
-docker build --target production -t awesomewebhook:lastet .
+docker build --target production -t awesomewebhook:latest .
 # Or use the Makefile recipe
 make build
 ```
 4. Run the app
 ```bash
 docker run -d --rm --name awesomewebhook -p 5000:5000 --env WEBHOOK_SECRET=$WEBHOOK_SECRET \
-	--env GITHUB_TOKEN=$GITHUB_TOKEN awesomewebhook:lastet
+	--env GITHUB_TOKEN=$GITHUB_TOKEN awesomewebhook:latest
 # Or use the Makefile recipe
 make run
 ```
@@ -61,7 +61,7 @@ make run
 ```bash
 docker ps
 CONTAINER ID   IMAGE                  COMMAND           CREATED          STATUS          PORTS                                       NAMES
-52a81b99ad3b   awesomewebhook:lastet   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awesomewebhook
+52a81b99ad3b   awesomewebhook:latest   "python app.py"   24 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   awesomewebhook
 ```
 6.  Configure the webhook in the Github Organization
  - [x] URL from ngrok command (*from step 1*)
